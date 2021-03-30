@@ -25,8 +25,13 @@ export const getSingleUser = async (req, res) => {
 
 export const createNewUser = async (req, res) => {
   try {
+    const { name, lastName, email } = req.body;
+    if (!name || !lastName || !email)
+      return res.status(400).json({ message: 'Name, LastName and Email are required fields' });
     const results = await client.db('wd012').collection('users').insertOne({
-      cat: 'Felix'
+      name,
+      lastName,
+      email
     });
     res.json(results.ops[0]);
   } catch (error) {
